@@ -1,17 +1,22 @@
-from bitarray import bitarray
+import bitarray
+import newax25 as ax25
 import numpy as np
-from scipy import signal
+from scipy import signal, integrate
 import numpy.ctypeslib as npct
 from ctypes import c_int
 from ctypes import c_float
 from numpy import ones, zeros, pi, sin, cos, exp, sign, r_, mean, power
+from math import gcd
+from functools import reduce
 
+def lcm(numbers):
+    return reduce(lambda x, y: (x*y)//gcd(x,y), numbers, 1)
 
 array_1d_int = npct.ndpointer(dtype=int, ndim=1, flags='CONTIGUOUS')
 
-# libcd = npct.load_library("./libpll", ".")
-# libcd.pll.restype = c_int
-# libcd.pll.argtypes= [array_1d_int, c_int, array_1d_int,array_1d_int,  array_1d_int,array_1d_int, c_int, c_float]
+libcd = npct.load_library("./libpll", ".")
+libcd.pll.restype = c_int
+libcd.pll.argtypes= [array_1d_int, c_int, array_1d_int,array_1d_int,  array_1d_int,array_1d_int, c_int, c_float]
 
 
 class TNCaprs:
